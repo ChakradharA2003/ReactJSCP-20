@@ -7,20 +7,23 @@ class Stopwatch extends Component {
     minutes: 0,
     seconds: 0,
     isTimerRunning: false,
-    stop: false,
   }
-
-  
 
   onClickedStart = () => {
     this.setState(prevState => ({
       isTimerRunning: !prevState.isTimerRunning,
     }))
+    this.secondsId = setInterval(this.secondsTimer, 1000)
+    this.minutesId = setInterval(this.minutesTimer, 60000)
+  }
 
   onClickedStop = () => {
     this.setState(prevState => ({
-      stop: !prevState.stop,
+      isTimerRunning: !prevState.isTimerRunning,
     }))
+    console.log(this.secondsId)
+    clearInterval(this.secondsId)
+    clearInterval(this.minutesId)
   }
 
   onClickedReset = () => {
@@ -49,11 +52,11 @@ class Stopwatch extends Component {
     }
   }
 
-
   render() {
     const {minutes, seconds, isTimerRunning} = this.state
     const formattedMinutes = minutes > 9 ? minutes : `0${minutes}`
     const formattedSeconds = seconds > 9 ? seconds : `0${seconds}`
+
     return (
       <div className="bg-container">
         <div className="stopwatch-card">
@@ -67,9 +70,9 @@ class Stopwatch extends Component {
               />
               <h1 className="timer-heading">Timer</h1>
             </div>
-            <p className="timer-para">
+            <h1 className="timer-para">
               {formattedMinutes}:{formattedSeconds}
-            </p>
+            </h1>
             <div className="btns-sontainer">
               <button
                 type="button"
@@ -98,5 +101,6 @@ class Stopwatch extends Component {
         </div>
       </div>
     )
+  }
 }
 export default Stopwatch
